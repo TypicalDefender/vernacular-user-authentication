@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const app = express();
-
+const user = require('./routes/users');
 //immediately invoked function expression
 //database connection function
 (async function connectDB() {
@@ -24,7 +24,9 @@ const app = express();
 if (app.get('env') == "development") {
     app.use(morgan('tiny'));
 }
-
+app.use(express.json());
+app.use('/api', user);
+// app.use('/api', user);
 //port setup
 const PORT = process.env.PORT || 8080;
 
