@@ -39,14 +39,26 @@ function validateLogin(data){
         email : Joi.string().min(5).max(50).required().email(),
         password : Joi.string().min(5).max(50).required()
     }
-    return Joi.validate(data, sche)
+    return Joi.validate(data, schema)
 }
-// router.post('/login', async (req, res)=>{
-//     try{
-//       const { error } = require()
-//     }
-//     catch(err){
-//         console.log(err);
-//     }
-// })
+router.post('/login', async (req, res)=>{
+    try{
+      const { error } = validateLogin(req.body);
+      if(error){
+          return res.status(400).send("Invalid details");
+      }
+      const user = await User.findOne({email : req.body.email});
+      if(!user){
+          return res.status(404).send("Incorrect email or password..check again!");
+      }
+      const passwordVerify = await bcrypt.compare(req.body.password, user.password);
+      if(!passwordVerify){
+        return res.status(404).send("Incorrect email or password..check again!");
+      }
+      return res.status(200).send("User logged in successfully");
+    }
+    catch(err){
+        console.log(err);
+    }
+})
 module.exports = router;
