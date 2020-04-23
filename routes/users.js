@@ -3,7 +3,7 @@ const router = express.Router();
 const { User, validate } = require('../models/user');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
-
+const auth = require('../middleware/auth');
 
 router.post('/signup', async (req, res)=>{
      try{
@@ -62,5 +62,16 @@ router.post('/login', async (req, res)=>{
     catch(err){
         console.log(err);
     }
+});
+router.get('/auth', auth, async (req, res, next)=>{
+     try{
+       const userData = await User.findById(req.user._id)
+                                  .select({password : 0, __v : 0});
+       return res.status(200).send(userData);
+     }
+     catch(err){
+
+     }
+    // return res.status(200).send("you are granted");
 })
 module.exports = router;
