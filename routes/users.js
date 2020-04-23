@@ -26,7 +26,8 @@ router.post('/signup', async (req, res)=>{
        user.password = await bcrypt.hash(req.body.password, salt);
     //    console.log(user.password);
        await user.save();
-       res.status(200).send("User logged in successfully");            
+       const token = user.generateAuthToken();
+       res.status(200).send(token);            
      }
      catch(err){
         console.log("some err happened: ", err);
@@ -55,7 +56,8 @@ router.post('/login', async (req, res)=>{
       if(!passwordVerify){
         return res.status(404).send("Incorrect email or password..check again!");
       }
-      return res.status(200).send("User logged in successfully");
+      const token = user.generateAuthToken();
+      return res.header('x-auth-token', token).status(200).send("User logged in successfully");
     }
     catch(err){
         console.log(err);
