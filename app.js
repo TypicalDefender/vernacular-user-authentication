@@ -16,7 +16,7 @@ const user = require('./routes/users');
         });
         console.log("Connected to the database:", connect.connections[0].name);
     } catch (err) {
-        console.log("err connecting the database", err);
+        console.log("error connecting the database", err);
     }
 })();
 
