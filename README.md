@@ -24,3 +24,5 @@ You want to store user's password to be securely stored in the database but if y
 2. JsonWebToken:
 You want the website resources to be served to the verified user(authorised user). There JWT got your back. What do you do is when a person logs in or signs up you generate a token and send the token in a key-value pair in the website header [here I have used "x-auth-token" as key]. So next time when the same user try to access an endpoint then you verify the token from the header to check whether is this the same person or an authorised user. Here is the catch how to you verify ugh..it's pretty simple just like that we did in the password part here we while generating the token pass a keyword of your choice I have pass "jwtPrivateKey" and some user info. While verifying it pass that same parameter.
 
+Find the documentation of the project here:
+
